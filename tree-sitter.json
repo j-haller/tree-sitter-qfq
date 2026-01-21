@@ -10,7 +10,9 @@
         "qfqr"
       ],
       "injection-regex": "^qfq$",
-      "class-name": "TreeSitterQfq"
+      "class-name": "TreeSitterQfq",
+      "highlights": "queries/highlights.scm",
+      "injections": "queries/injections.scm"
     }
   ],
   "metadata": {
