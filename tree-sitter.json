@@ -1,0 +1,40 @@
+{
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/config.schema.json",
+  "grammars": [
+    {
+      "name": "qfq",
+      "camelcase": "Qfq",
+      "title": "QFQ",
+      "scope": "source.qfq",
+      "file-types": [
+        "qfqr"
+      ],
+      "injection-regex": "^qfq$",
+      "class-name": "TreeSitterQfq"
+    }
+  ],
+  "metadata": {
+    "version": "0.1.0",
+    "license": "MIT",
+    "description": "Qfq grammar for tree-sitter",
+    "authors": [
+      {
+        "name": "Jan Haller",
+        "email": "jan@haller.dev",
+        "url": "https://haller.dev/"
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/j-halla/tree-sitter-qfq"
+    }
+  },
+  "bindings": {
+    "c": true,
+    "go": true,
+    "node": true,
+    "python": true,
+    "rust": true,
+    "swift": true,
+    "zig": false
+  }
+}
