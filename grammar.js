@@ -12,165 +12,200 @@
 
 // QFQ Keywords from CodeMirror configuration
 const QFQ_BASE_KEYWORDS = [
-  'form', 'r', 'dbIndex', 'debugShowBodyText', 'sqlLog', 'sqlLogMode',
-  'render', 'performanceReport'
+  'form',
+  'r',
+  'dbIndex',
+  'debugShowBodyText',
+  'sqlLog',
+  'sqlLogMode',
+  'render',
+  'performanceReport'
 ];
 
+const QFQ_RENDER_KEYWORDS = [
+  'single',
+  'both',
+  'api'
+]
+
+const QFQ_OPENING_BRACES = [
+  '{',
+  '[',
+  '(',
+  '<'
+]
+
+const QFQ_CLOSING_BRACES = [
+  '}',
+  ']',
+  ')',
+  '>'
+]
+
 const QFQ_LEVEL_KEYWORDS = [
-  'fbeg', 'fend', 'fsep', 'fskipwrap', 'shead', 'stail', 'head', 'tail',
-  'lbeg', 'lend', 'libeg', 'liend', 'rbeg', 'rbgd', 'rend', 'renr', 'rsep',
-  'sql', 'twig', 'althead', 'altsql', 'content', 'fireIf', 'fireSubIf', 'function'
+  'fbeg',
+  'fend',
+  'fsep',
+  'fskipwrap',
+  'shead',
+  'stail',
+  'head',
+  'tail',
+  'rbeg',
+  'rbgd',
+  'rend',
+  'renr',
+  'rsep',
+  'lbeg',
+  'lend',
+  'libeg',
+  'liend',
+  'sql',
+  'twig',
+  'althead',
+  'altsql',
+  'content',
+  'function'
 ];
+
+const QFQ_STORES = [
+  'F',
+  'S',
+  'R',
+  'B',
+  'C',
+  'T',
+  'V',
+  'L',
+  'Y',
+  'U',
+  'A',
+  'W',
+  'E',
+  '0'
+]
+
+const QFQ_SANITIZE_CLASSES = [
+  'alnumx',
+  'digit',
+  'numerical',
+  'allbut',
+  'all'
+]
+
+const QFQ_ESCAPE_ACTION_CLASSES = [
+  'c',
+  'C',
+  'd',
+  'f',
+  'h',
+  'H',
+  'l',
+  'L',
+  'm',
+  'p',
+  'P',
+  's',
+  'S',
+  't',
+  'T',
+  'w',
+  'X',
+  '',
+  '-',
+  'E',
+  'D'
+]
+
+const QFQ_SQL_FUNCTIONS = [
+  'QBAR',
+  'QENT_ENCODE',
+  'QENT_DECODE',
+  'QCC',
+  'QNL2BR',
+  'QNBSP',
+  'QLEFT',
+  'QRIGHT',
+  'QMORE',
+  'QIFEMPTY',
+  'QIFPREPEND',
+  'QDATE_FORMAT',
+  'QSLUGIFY',
+  'QEND_SQUOTE',
+  'QEND_SQUOTE',
+  'QESC_SQUOTE',
+  'QESC_DQUOTE',
+  'QMANR',
+  'strip_tags'
+]
 
 module.exports = grammar({
   name: "qfq",
 
-  extras: $ => [/[ \t]/],
+  externals: $ => [
+    $.expression_content,
+    $.line_content,  // For level_expression - lines that don't start with keywords
+  ],
 
+  extras: $ => [
+    /[ \t]/,
+    $.comment,
+  ],
 
   rules: {
-    source_file: $ => repeat($._line),
+    source_file: $ => repeat($._definition),
 
-    _line: $ => choice(
-      $.comment,
-      $.base_assignment,
-      $.level_assignment,
-      $.block_start,
-      $.block_end,
-      $.value_line,
+    _definition: $ => choice(
+      $.base_statement,
+      $.level_definition,
       $._newline
     ),
 
-    _newline: $ => /\r?\n/,
-
-    // Comments: lines starting with #
-    comment: $ => seq(
-      '#',
-      optional($.comment_content),
-      $._newline
+    base_statement: $ => seq(
+      choice(...QFQ_BASE_KEYWORDS),
+      '=',
+      $.expression
     ),
 
-    comment_content: $ => /[^\r\n]*/,
+    level_definition: $ => seq(
+      optional($.identifier),
+      $.block
+    ),
 
-    // Base keyword assignments (top level): form = value
-    base_assignment: $ => prec(5, seq(
-      field('keyword', $.base_keyword),
+    block: $ => seq(
+      choice(...QFQ_OPENING_BRACES),
+      repeat($._newline),
+      repeat($._block_content),
+      choice(...QFQ_CLOSING_BRACES),
+    ),
+
+    _block_content: $ => seq(
+      choice(
+        $.level_statement,
+        $.level_expression,
+        $.level_definition,
+      ),
+      repeat($._newline)
+    ),
+
+    level_statement: $ => seq(
+      $.level_keyword,
       '=',
-      field('value', optional($.value)),
-      $._newline
-    )),
-
-    base_keyword: $ => choice(...QFQ_BASE_KEYWORDS),
-
-    // Level keyword assignments: sql = ..., 10.sql = ...
-    level_assignment: $ => prec(5, seq(
-      optional(seq(
-        field('level_path', $.level_path),
-        '.'
-      )),
-      field('keyword', $.level_keyword),
-      optional($.bracket_suffix),
-      '=',
-      field('value', optional($.value)),
-      $._newline
-    )),
-
-    level_path: $ => prec.left(seq(
-      $.level_identifier,
-      repeat(seq('.', $.level_identifier))
-    )),
-
-    level_identifier: $ => /[\w-]+/,
-
-    bracket_suffix: $ => seq('[', optional(/\d+/), ']'),
+      $.expression
+    ),
 
     level_keyword: $ => choice(...QFQ_LEVEL_KEYWORDS),
 
-    // Block start: { on its own line (optionally with a numeric identifier)
-    block_start: $ => seq(
-      optional(field('name', $.block_name)),
-      '{',
-      $._newline
-    ),
+    level_expression: $ => $.line_content,
 
-    // Block names are typically numeric identifiers
-    block_name: $ => /\d+/,
+    // Expression can span multiple lines with comments interspersed
+    expression: $ => repeat1($.expression_content),
 
-    // Block end: }
-    block_end: $ => '}',
+    identifier: $ => /[a-zA-Z0-9]+/,
 
-    // Continuation lines (value content without assignment)
-    value_line: $ => prec(-1, seq(
-      $.value,
-      $._newline
-    )),
+    _newline: $ => /\r?\n/,
 
-    // Value content on a single line
-    value: $ => repeat1($._value_part),
-
-    _value_part: $ => choice(
-      $.qfq_variable,
-      $.string,
-      $.identifier,
-      $.number,
-      $.operator,
-      $.punctuation
-    ),
-
-    // QFQ Variables: {{...}}
-    qfq_variable: $ => seq(
-      '{{',
-      optional($.variable_prefix),
-      $.variable_name,
-      optional($.variable_modifiers),
-      '}}'
-    ),
-
-    variable_prefix: $ => choice('&', '!'),
-
-    variable_name: $ => /[\w._-]+/,
-
-    variable_modifiers: $ => repeat1(seq(
-      ':',
-      optional($.modifier_value)
-    )),
-
-    modifier_value: $ => /[^:}]+/,
-
-    // Strings
-    string: $ => choice(
-      $.single_quoted_string,
-      $.double_quoted_string
-    ),
-
-    single_quoted_string: $ => seq(
-      "'",
-      repeat(choice(
-        /[^'\\\r\n]+/,
-        /\\./
-      )),
-      "'"
-    ),
-
-    double_quoted_string: $ => seq(
-      '"',
-      repeat(choice(
-        /[^"\\\r\n]+/,
-        /\\./
-      )),
-      '"'
-    ),
-
-    // Numbers
-    number: $ => /-?\d+(\.\d+)?/,
-
-    // Generic identifier
-    identifier: $ => /[A-Za-z_][A-Za-z0-9_]*/,
-
-    // Operators
-    operator: $ => choice('<=', '>=', '<>', '!=', '<', '>', '=', '+', '-', '*', '/', '%', '|', '&'),
-
-    // Punctuation
-    punctuation: $ => choice(',', '.', '(', ')', ';', ':', '[', ']')
+    // Comments: lines starting with # (preceded only by whitespace)
+    comment: $ => /#[^\r\n]*/
   }
 });
