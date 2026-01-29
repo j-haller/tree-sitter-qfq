@@ -1,0 +1,319 @@
+[
+  {
+    "type": "base_keyword",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "base_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "base_keyword",
+          "named": true
+        },
+        {
+          "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "level_definition",
+          "named": true
+        },
+        {
+          "type": "level_expression",
+          "named": true
+        },
+        {
+          "type": "level_statement",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression_content",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "level_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "level_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "line_content",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "level_keyword",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "level_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "level_keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "report",
+    "named": true,
+    "root": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "base_statement",
+          "named": true
+        },
+        {
+          "type": "level_definition",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": ")",
+    "named": false
+  },
+  {
+    "type": "<",
+    "named": false
+  },
+  {
+    "type": "=",
+    "named": false
+  },
+  {
+    "type": ">",
+    "named": false
+  },
+  {
+    "type": "[",
+    "named": false
+  },
+  {
+    "type": "]",
+    "named": false
+  },
+  {
+    "type": "althead",
+    "named": false
+  },
+  {
+    "type": "altsql",
+    "named": false
+  },
+  {
+    "type": "comment",
+    "named": true,
+    "extra": true
+  },
+  {
+    "type": "content",
+    "named": false
+  },
+  {
+    "type": "dbIndex",
+    "named": false
+  },
+  {
+    "type": "debugShowBodyText",
+    "named": false
+  },
+  {
+    "type": "expression_content",
+    "named": true
+  },
+  {
+    "type": "fbeg",
+    "named": false
+  },
+  {
+    "type": "fend",
+    "named": false
+  },
+  {
+    "type": "form",
+    "named": false
+  },
+  {
+    "type": "fsep",
+    "named": false
+  },
+  {
+    "type": "fskipwrap",
+    "named": false
+  },
+  {
+    "type": "function",
+    "named": false
+  },
+  {
+    "type": "head",
+    "named": false
+  },
+  {
+    "type": "identifier",
+    "named": true
+  },
+  {
+    "type": "lbeg",
+    "named": false
+  },
+  {
+    "type": "lend",
+    "named": false
+  },
+  {
+    "type": "libeg",
+    "named": false
+  },
+  {
+    "type": "liend",
+    "named": false
+  },
+  {
+    "type": "line_content",
+    "named": true
+  },
+  {
+    "type": "performanceReport",
+    "named": false
+  },
+  {
+    "type": "r",
+    "named": false
+  },
+  {
+    "type": "rbeg",
+    "named": false
+  },
+  {
+    "type": "rbgd",
+    "named": false
+  },
+  {
+    "type": "rend",
+    "named": false
+  },
+  {
+    "type": "render",
+    "named": false
+  },
+  {
+    "type": "renr",
+    "named": false
+  },
+  {
+    "type": "rsep",
+    "named": false
+  },
+  {
+    "type": "shead",
+    "named": false
+  },
+  {
+    "type": "sql",
+    "named": false
+  },
+  {
+    "type": "sqlLog",
+    "named": false
+  },
+  {
+    "type": "sqlLogMode",
+    "named": false
+  },
+  {
+    "type": "stail",
+    "named": false
+  },
+  {
+    "type": "tail",
+    "named": false
+  },
+  {
+    "type": "twig",
+    "named": false
+  },
+  {
+    "type": "{",
+    "named": false
+  },
+  {
+    "type": "}",
+    "named": false
+  }
+]

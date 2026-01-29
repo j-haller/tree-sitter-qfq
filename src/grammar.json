@@ -1,0 +1,357 @@
+{
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/grammar.schema.json",
+  "name": "qfq",
+  "rules": {
+    "report": {
+      "type": "REPEAT",
+      "content": {
+        "type": "SYMBOL",
+        "name": "_definition"
+      }
+    },
+    "_definition": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "base_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "level_definition"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_newline"
+        }
+      ]
+    },
+    "base_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "base_keyword"
+        },
+        {
+          "type": "STRING",
+          "value": "="
+        },
+        {
+          "type": "SYMBOL",
+          "name": "expression"
+        }
+      ]
+    },
+    "level_definition": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "identifier"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "block"
+        }
+      ]
+    },
+    "block": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "{"
+            },
+            {
+              "type": "STRING",
+              "value": "["
+            },
+            {
+              "type": "STRING",
+              "value": "("
+            },
+            {
+              "type": "STRING",
+              "value": "<"
+            }
+          ]
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_newline"
+          }
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_block_content"
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "}"
+            },
+            {
+              "type": "STRING",
+              "value": "]"
+            },
+            {
+              "type": "STRING",
+              "value": ")"
+            },
+            {
+              "type": "STRING",
+              "value": ">"
+            }
+          ]
+        }
+      ]
+    },
+    "_block_content": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "level_statement"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "level_expression"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "level_definition"
+            }
+          ]
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_newline"
+          }
+        }
+      ]
+    },
+    "level_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "level_keyword"
+        },
+        {
+          "type": "STRING",
+          "value": "="
+        },
+        {
+          "type": "SYMBOL",
+          "name": "expression"
+        }
+      ]
+    },
+    "base_keyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "form"
+        },
+        {
+          "type": "STRING",
+          "value": "r"
+        },
+        {
+          "type": "STRING",
+          "value": "dbIndex"
+        },
+        {
+          "type": "STRING",
+          "value": "debugShowBodyText"
+        },
+        {
+          "type": "STRING",
+          "value": "sqlLog"
+        },
+        {
+          "type": "STRING",
+          "value": "sqlLogMode"
+        },
+        {
+          "type": "STRING",
+          "value": "render"
+        },
+        {
+          "type": "STRING",
+          "value": "performanceReport"
+        }
+      ]
+    },
+    "level_keyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "fbeg"
+        },
+        {
+          "type": "STRING",
+          "value": "fend"
+        },
+        {
+          "type": "STRING",
+          "value": "fsep"
+        },
+        {
+          "type": "STRING",
+          "value": "fskipwrap"
+        },
+        {
+          "type": "STRING",
+          "value": "shead"
+        },
+        {
+          "type": "STRING",
+          "value": "stail"
+        },
+        {
+          "type": "STRING",
+          "value": "head"
+        },
+        {
+          "type": "STRING",
+          "value": "tail"
+        },
+        {
+          "type": "STRING",
+          "value": "rbeg"
+        },
+        {
+          "type": "STRING",
+          "value": "rbgd"
+        },
+        {
+          "type": "STRING",
+          "value": "rend"
+        },
+        {
+          "type": "STRING",
+          "value": "renr"
+        },
+        {
+          "type": "STRING",
+          "value": "rsep"
+        },
+        {
+          "type": "STRING",
+          "value": "lbeg"
+        },
+        {
+          "type": "STRING",
+          "value": "lend"
+        },
+        {
+          "type": "STRING",
+          "value": "libeg"
+        },
+        {
+          "type": "STRING",
+          "value": "liend"
+        },
+        {
+          "type": "STRING",
+          "value": "sql"
+        },
+        {
+          "type": "STRING",
+          "value": "twig"
+        },
+        {
+          "type": "STRING",
+          "value": "althead"
+        },
+        {
+          "type": "STRING",
+          "value": "altsql"
+        },
+        {
+          "type": "STRING",
+          "value": "content"
+        },
+        {
+          "type": "STRING",
+          "value": "function"
+        }
+      ]
+    },
+    "level_expression": {
+      "type": "SYMBOL",
+      "name": "line_content"
+    },
+    "expression": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "SYMBOL",
+        "name": "expression_content"
+      }
+    },
+    "identifier": {
+      "type": "PATTERN",
+      "value": "[a-zA-Z0-9]+"
+    },
+    "_newline": {
+      "type": "PATTERN",
+      "value": "\\r?\\n"
+    },
+    "comment": {
+      "type": "PATTERN",
+      "value": "#[^\\r\\n]*"
+    }
+  },
+  "extras": [
+    {
+      "type": "PATTERN",
+      "value": "[ \\t]"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "comment"
+    }
+  ],
+  "conflicts": [],
+  "precedences": [],
+  "externals": [
+    {
+      "type": "SYMBOL",
+      "name": "expression_content"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "line_content"
+    }
+  ],
+  "inline": [],
+  "supertypes": [],
+  "reserved": {}
+}
