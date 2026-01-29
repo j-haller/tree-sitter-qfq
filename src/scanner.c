@@ -9,6 +9,7 @@
 #include "tree_sitter/parser.h"
 #include <string.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 enum TokenType {
   EXPRESSION_CONTENT,

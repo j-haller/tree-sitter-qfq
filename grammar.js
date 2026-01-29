@@ -197,7 +197,6 @@ module.exports = grammar({
     base_keyword: $ => choice(...QFQ_BASE_KEYWORDS),
     level_keyword: $ => choice(...QFQ_LEVEL_KEYWORDS),
 
-
     level_expression: $ => $.line_content,
 
     // Expression can span multiple lines with comments interspersed
