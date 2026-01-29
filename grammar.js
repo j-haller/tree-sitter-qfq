@@ -153,7 +153,7 @@ module.exports = grammar({
   ],
 
   rules: {
-    source_file: $ => repeat($._definition),
+    report: $ => repeat($._definition),
 
     _definition: $ => choice(
       $.base_statement,
@@ -162,7 +162,7 @@ module.exports = grammar({
     ),
 
     base_statement: $ => seq(
-      choice(...QFQ_BASE_KEYWORDS),
+      $.base_keyword,
       '=',
       $.expression
     ),
@@ -194,7 +194,9 @@ module.exports = grammar({
       $.expression
     ),
 
+    base_keyword: $ => choice(...QFQ_BASE_KEYWORDS),
     level_keyword: $ => choice(...QFQ_LEVEL_KEYWORDS),
+
 
     level_expression: $ => $.line_content,
 
