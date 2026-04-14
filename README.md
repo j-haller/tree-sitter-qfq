@@ -88,7 +88,3 @@ tree-sitter test
 ```sh
 npm start
 ```
-
-## License
-
-MIT — Jan Haller &lt;jan@haller.dev&gt;
