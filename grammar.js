@@ -10,63 +10,11 @@
 /// <reference types="tree-sitter-cli/dsl" />
 // @ts-check
 
-// QFQ Keywords from CodeMirror configuration
-const QFQ_BASE_KEYWORDS = [
-  'form',
-  'r',
-  'dbIndex',
-  'debugShowBodyText',
-  'sqlLog',
-  'sqlLogMode',
-  'render',
-  'performanceReport'
-];
-
 const QFQ_RENDER_KEYWORDS = [
   'single',
   'both',
   'api'
 ]
-
-const QFQ_OPENING_BRACES = [
-  '{',
-  '[',
-  '(',
-  '<'
-]
-
-const QFQ_CLOSING_BRACES = [
-  '}',
-  ']',
-  ')',
-  '>'
-]
-
-const QFQ_LEVEL_KEYWORDS = [
-  'fbeg',
-  'fend',
-  'fsep',
-  'fskipwrap',
-  'shead',
-  'stail',
-  'head',
-  'tail',
-  'rbeg',
-  'rbgd',
-  'rend',
-  'renr',
-  'rsep',
-  'lbeg',
-  'lend',
-  'libeg',
-  'liend',
-  'sql',
-  'twig',
-  'althead',
-  'altsql',
-  'content',
-  'function'
-];
 
 const QFQ_STORES = [
   'F',
@@ -173,10 +121,20 @@ module.exports = grammar({
     ),
 
     block: $ => seq(
-      choice(...QFQ_OPENING_BRACES),
+      choice(
+        '{',
+        '[',
+        '(',
+        '<'
+      ),
       repeat($._newline),
       repeat($._block_content),
-      choice(...QFQ_CLOSING_BRACES),
+      choice(
+        '}',
+        ']',
+        ')',
+        '>'
+      ),
     ),
 
     _block_content: $ => seq(
@@ -194,8 +152,41 @@ module.exports = grammar({
       $.expression
     ),
 
-    base_keyword: $ => choice(...QFQ_BASE_KEYWORDS),
-    level_keyword: $ => choice(...QFQ_LEVEL_KEYWORDS),
+    base_keyword: $ => choice(
+      'form',
+      'r',
+      'dbIndex',
+      'debugShowBodyText',
+      'sqlLog',
+      'sqlLogMode',
+      'render',
+      'performanceReport'
+    ),
+    level_keyword: $ => choice(
+      'fbeg',
+      'fend',
+      'fsep',
+      'fskipwrap',
+      'shead',
+      'stail',
+      'head',
+      'tail',
+      'rbeg',
+      'rbgd',
+      'rend',
+      'renr',
+      'rsep',
+      'lbeg',
+      'lend',
+      'libeg',
+      'liend',
+      'sql',
+      'twig',
+      'althead',
+      'altsql',
+      'content',
+      'function'
+    ),
 
     level_expression: $ => $.line_content,
 
